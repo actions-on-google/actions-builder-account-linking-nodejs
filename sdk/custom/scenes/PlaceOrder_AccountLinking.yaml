@@ -1,0 +1,50 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+conditionalEvents:
+- condition: session.params.AccountLinkingSlot == "LINKED"
+  handler:
+    webhookHandler: create_user
+  transitionToScene: PlaceOrder
+- condition: session.params.AccountLinkingSlot == "ERROR"
+  handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: Sorry, we've experienced some technical difficulties. Please
+                try again to link your account.
+    webhookHandler: system_error
+  transitionToScene: PlaceOrder
+- condition: session.params.AccountLinkingSlot == "REJECTED"
+  handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: Ok, I won't be able to place order for you.
+  transitionToScene: GetList
+slots:
+- commitBehavior:
+    writeSessionParam: AccountLinkingSlot
+  config:
+    '@type': type.googleapis.com/google.actions.conversation.v3.SignInSpec
+    opt_context: To place your orders and save your preferences
+  defaultValue:
+    sessionParam: AccountLinkingSlot
+  name: AccountLinkingSlot
+  required: true
+  type:
+    name: actions.type.AccountLinking

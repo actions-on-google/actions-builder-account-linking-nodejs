@@ -1,0 +1,46 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+conditionalEvents:
+- condition: user.params.name != ""
+  handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: Welcome back to Boba Bonanza $user.name! Would you like to order
+                or hear the list again?
+- condition: user.verificationStatus == "VERIFIED"
+  handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: '''Welcome to Boba Bonanza! Are you ready to order or do you
+                want me to go through the drinks with you?'''
+- condition: user.verificationStatus == "NOT_VERIFIED"
+  handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: Sorry, we've experienced a technical problem. Please try again.
+  transitionToScene: actions.scene.END_CONVERSATION
+intentEvents:
+- intent: list
+  transitionToScene: GetList
+- intent: order
+  transitionToScene: PlaceOrder
