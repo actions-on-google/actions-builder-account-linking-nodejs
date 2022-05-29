@@ -12,10 +12,9 @@
     "lint:fix": "eslint --fix \"**/*.js\""
   },
   "dependencies": {
-    "@assistant/conversation": "^3.0.0",
+    "@assistant/conversation": "^3.8.1",
     "firebase-admin": "~8.12.1",
-    "firebase-functions": "^3.6.2",
-    "dotenv": "^6.0.0"
+    "firebase-functions": "^3.21.2"
   },
   "devDependencies": {
     "eslint": "^5.2.0",

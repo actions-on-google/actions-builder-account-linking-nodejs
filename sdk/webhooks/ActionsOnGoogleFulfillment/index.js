@@ -19,9 +19,7 @@ const {
 } = require('@assistant/conversation');
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const dotenv = require('dotenv');
 
-dotenv.config();
 admin.initializeApp();
 const auth = admin.auth();
 const db = admin.firestore();
@@ -30,8 +28,8 @@ const dbs = {
   user: db.collection('user'),
 };
 
-// The Client Id of the Actions Project (set it in the env file).
-const CLIENT_ID = process.env.CLIENT_ID;
+// The Client Id of the Actions Project (in production this should go in a .env file).
+const CLIENT_ID = 'YOUR_ID_HERE';
 
 const app = conversation({debug: true, clientId: CLIENT_ID});
 
@@ -76,7 +74,7 @@ app.handle('create_user', async (conv) => {
 // needed.
 app.handle('place_order', async (conv) => {
   let order = conv.session.params.order;
-  let usual = conv.user.params.usual;
+  let usual = conv.user.params.usual.option;
 
   if (order === USUAL) {
     order = usual;
@@ -89,8 +87,12 @@ app.handle('place_order', async (conv) => {
       {count: admin.firestore.FieldValue.increment(1)});
   if (order !== usual) {
     // Recompute usual in case this order changed the favorite
-    let usualDoc = await orderHistoryColl.orderBy('count').limit(1).get();
-    conv.user.params.usual = usualDoc.data().option;
+    let snapshot = await orderHistoryColl.orderBy('count', 'desc').limit(1).get();
+    if (!snapshot.empty) {
+      snapshot.forEach(doc => {
+        conv.user.params.usual = doc.data();
+      });
+    }
   }
 
   // Clear order session param for future sessions
