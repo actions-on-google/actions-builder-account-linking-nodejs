@@ -12,25 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 conditionalEvents:
-- condition: user.accountLinkingStatus == "NOT_LINKED"
-  transitionToScene: PlaceOrder_AccountLinking
-- condition: user.params.accountLinkingStatus == "LINKED" && (scene.slots.status ==
-    "FINAL" || session.params.order != "")
-  handler:
-    webhookHandler: place_order
-  transitionToScene: actions.scene.END_CONVERSATION
+  - condition: user.accountLinkingStatus == "NOT_LINKED"
+    transitionToScene: PlaceOrder_AccountLinking
+  - condition: user.accountLinkingStatus == "LINKED" && (scene.slots.status == "FINAL" || session.params.order != "")
+    handler:
+      webhookHandler: place_order
+    transitionToScene: actions.scene.END_CONVERSATION
 slots:
-- commitBehavior:
-    writeSessionParam: order
-  name: order
-  promptSettings:
-    initialPrompt:
-      staticPrompt:
-        candidates:
-        - promptResponse:
-            firstSimple:
-              variants:
-              - speech: Sorry I need an order to proceed.
-  required: true
-  type:
+  - commitBehavior:
+      writeSessionParam: order
     name: order
+    promptSettings:
+      initialPrompt:
+        staticPrompt:
+          candidates:
+            - promptResponse:
+                firstSimple:
+                  variants:
+                    - speech: Sorry I need an order to proceed.
+    required: true
+    type:
+      name: order

@@ -12,30 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 conditionalEvents:
-- condition: user.params.usual
-  handler:
-    staticPrompt:
-      candidates:
-      - promptResponse:
-          firstSimple:
-            variants:
-            - speech: If you ask for your usual, we will select the option you order
-                more frequently. What would you like to order?
-- condition: "true"
-  handler:
-    staticPrompt:
-      candidates:
-      - promptResponse:
-          firstSimple:
-            variants:
-            - speech: What would you like?
+  - condition: user.params.usual.count > 0
+    handler:
+      staticPrompt:
+        candidates:
+          - promptResponse:
+              firstSimple:
+                variants:
+                  - speech: If you ask for your usual, we will select the option you order more frequently. What would you like to order?
+  - condition: "true"
+    handler:
+      staticPrompt:
+        candidates:
+          - promptResponse:
+              firstSimple:
+                variants:
+                  - speech: What would you like?
 intentEvents:
-- intent: order
-  transitionToScene: PlaceOrder
+  - intent: order
+    transitionToScene: PlaceOrder
 onEnter:
   staticPrompt:
     candidates:
-    - promptResponse:
-        firstSimple:
-          variants:
-          - speech: You can order a matcha tea or a boba special.
+      - promptResponse:
+          firstSimple:
+            variants:
+              - speech: You can order a matcha tea or a boba special.

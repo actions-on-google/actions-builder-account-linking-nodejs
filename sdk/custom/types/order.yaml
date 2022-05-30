@@ -15,14 +15,22 @@ synonym:
   entities:
     boba:
       synonyms:
-      - Boba Special
-      - boba special
-      - Boba
-      - boba
+        - Boba Special
+        - boba special
+        - Boba
+        - boba
     matcha:
       synonyms:
-      - Matcha
-      - Matcha Tea
-      - matcha
-      - matcha tea
+        - Matcha
+        - Matcha Tea
+        - matcha
+        - matcha tea
+    usual:
+      synonyms:
+        - Usual
+        - usual
+        - The Usual
+        - the usual
+        - My Usual
+        - my usual
   matchType: EXACT_MATCH

@@ -12,35 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 conditionalEvents:
-- condition: user.params.name != ""
-  handler:
-    staticPrompt:
-      candidates:
-      - promptResponse:
-          firstSimple:
-            variants:
-            - speech: Welcome back to Boba Bonanza $user.name! Would you like to order
-                or hear the list again?
-- condition: user.verificationStatus == "VERIFIED"
-  handler:
-    staticPrompt:
-      candidates:
-      - promptResponse:
-          firstSimple:
-            variants:
-            - speech: '''Welcome to Boba Bonanza! Are you ready to order or do you
-                want me to go through the drinks with you?'''
-- condition: user.verificationStatus == "NOT_VERIFIED"
-  handler:
-    staticPrompt:
-      candidates:
-      - promptResponse:
-          firstSimple:
-            variants:
-            - speech: Sorry, we've experienced a technical problem. Please try again.
-  transitionToScene: actions.scene.END_CONVERSATION
+  - condition: user.params.name != ""
+    handler:
+      staticPrompt:
+        candidates:
+          - promptResponse:
+              firstSimple:
+                variants:
+                  - speech: Welcome back to Boba Bonanza $user.params.name! Would you like to order or hear the list again?
+  - condition: user.verificationStatus == "VERIFIED"
+    handler:
+      staticPrompt:
+        candidates:
+          - promptResponse:
+              firstSimple:
+                variants:
+                  - speech: "'Welcome to Boba Bonanza! Are you ready to order or do you want me to go through the drinks with you?'"
+  - condition: user.verificationStatus == "NOT_VERIFIED"
+    handler:
+      staticPrompt:
+        candidates:
+          - promptResponse:
+              firstSimple:
+                variants:
+                  - speech: Sorry, we've experienced a technical problem. Please try again.
+    transitionToScene: actions.scene.END_CONVERSATION
 intentEvents:
-- intent: list
-  transitionToScene: GetList
-- intent: order
-  transitionToScene: PlaceOrder
+  - intent: list
+    transitionToScene: GetList
+  - intent: order
+    transitionToScene: PlaceOrder
