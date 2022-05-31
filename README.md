@@ -1,8 +1,10 @@
 # Actions on Google: Account Linking with Google Sign-In Sample
-This sample demonstrates Actions on Google features for use on Google Assistant
+This sample demonstrates Actions on Google features for use on Google Assistant 
 including account linking and [Google Sign In](https://developers.google.com/assistant/identity/google-sign-in)
  -- using the [Node.js client library](), [Firebase Authentication](https://firebase.google.com/docs/auth/),
  and deployed on [Cloud Functions for Firebase](https://firebase.google.com/docs/functions/).
+
+ *:warning: Warning: Conversational Actions will be deprecated on June 13, 2023. For more information, see [Conversational Actions Sunset](https://goo.gle/ca-sunset).*
 
 ### Prerequisites
 1. Node.js and NPM
